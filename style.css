@@ -1,0 +1,462 @@
+/* ============================================================
+   style.css — dizzled.dev
+   ============================================================
+
+   TABLE OF CONTENTS
+     1. Fonts
+     2. Colors (CSS variables — edit here to retheme everything)
+     3. Base reset & body
+     4. Panels
+     5. Top status bar
+     6. Hero section
+     7. Interest tags
+     8. Clock
+     9. Ticker / scrolling bar
+    10. Link buttons
+    11. Visitor counter
+    12. Terminal
+    13. Grid layouts
+    14. Animated status dot
+    15. Misc utilities
+    16. Cursor spark
+    17. Mobile / responsive
+   ============================================================ */
+
+
+/* ============================================================
+   1. FONTS
+   Share Tech Mono = body / monospace text
+   VT323           = big retro display text (clock, handle)
+   ============================================================ */
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=VT323&display=swap');
+
+
+/* ============================================================
+   2. COLORS
+   Change these variables to retheme the whole page at once.
+   ============================================================ */
+:root {
+  --green:      #00ff41;   /* primary green — most text and borders */
+  --green-dim:  #00aa2a;   /* dimmer green — prompts, labels        */
+  --green-dark: #003800;   /* very dark green — panel header bg     */
+  --cyan:       #00ffff;   /* cyan — link highlights                */
+  --cyan-dim:   #008888;   /* dim cyan                              */
+  --yellow:     #ffff00;   /* yellow — warnings, accents            */
+  --yellow-dim: #888800;   /* dim yellow                            */
+  --red:        #ff3333;   /* red — alerts, visitor counter         */
+  --magenta:    #ff00ff;   /* magenta — now playing panel           */
+  --bg:         #020a02;   /* page background                       */
+  --panel-bg:   #000000;   /* panel fill                            */
+  --border:     #0a2a0a;   /* default panel border                  */
+}
+
+
+/* ============================================================
+   3. BASE RESET & BODY
+   ============================================================ */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--bg);
+  /* subtle glow blobs in corners */
+  background-image:
+    radial-gradient(ellipse at 20% 50%, rgba(0,255,65,0.04) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 20%, rgba(0,255,255,0.03) 0%, transparent 50%);
+  font-family: 'Share Tech Mono', monospace;
+  color: var(--green);
+  min-height: 100vh;
+  cursor: crosshair;
+}
+
+/* Faint CRT scanlines overlaid on everything */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0,0,0,0.08) 0px, rgba(0,0,0,0.08) 1px,
+    transparent 1px, transparent 3px
+  );
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* Matrix rain canvas — sits behind all content */
+canvas#rain {
+  position: fixed;
+  inset: 0;
+  opacity: 0.06;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Main page content wrapper */
+.wrap {
+  position: relative;
+  z-index: 1;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 12px;
+  display: grid;
+  gap: 8px;
+}
+
+
+/* ============================================================
+   4. PANELS
+   The bordered boxes that hold all content.
+   Color variants: .c-cyan  .c-yellow  .c-red  .c-mag
+   ============================================================ */
+.panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--border);
+  box-shadow: inset 0 0 20px rgba(0,255,65,0.02);
+}
+
+/* Panel title bar */
+.panel-head {
+  padding: 4px 10px;
+  background: var(--green-dark);
+  border-bottom: 1px solid var(--border);
+  font-size: 10px;
+  color: var(--green-dim);
+  letter-spacing: 2px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  user-select: none;
+}
+
+/* Traffic light dots (decorative) */
+.panel-head .dots { display: flex; gap: 5px; }
+.panel-head .dot  { width: 7px; height: 7px; border-radius: 50%; }
+.dot-r { background: #ff3b30; }
+.dot-y { background: #febc2e; }
+.dot-g { background: #28c840; }
+
+.panel-body { padding: 10px; }
+
+/* Cyan variant */
+.c-cyan { border-color: #003333; }
+.c-cyan .panel-head { background: #001a1a; border-color: #003333; color: var(--cyan-dim); }
+
+/* Yellow variant */
+.c-yellow { border-color: #333300; }
+.c-yellow .panel-head { background: #1a1a00; border-color: #333300; color: var(--yellow-dim); }
+
+/* Red variant */
+.c-red { border-color: #330000; }
+.c-red .panel-head { background: #1a0000; border-color: #330000; color: #882222; }
+
+/* Magenta variant */
+.c-mag { border-color: #330033; }
+.c-mag .panel-head { background: #1a001a; border-color: #330033; color: #882288; }
+
+
+/* ============================================================
+   5. TOP STATUS BAR
+   ============================================================ */
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px 10px;
+  background: #000;
+  border: 1px solid var(--border);
+  font-size: 10px;
+  color: #004400;
+}
+
+.topbar .live  { color: var(--red); animation: blink 1s step-end infinite; }
+.topbar .right { display: flex; gap: 16px; }
+
+
+/* ============================================================
+   6. HERO SECTION
+   ============================================================ */
+.hero {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  border: 1px solid var(--border);
+  background: #000;
+  overflow: hidden;
+}
+
+.hero-left {
+  padding: 20px;
+  border-right: 1px solid var(--border);
+}
+
+.hero-right {
+  padding: 16px 14px;
+  min-width: 160px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Large glitching handle/name */
+.hero-handle {
+  font-family: 'VT323', monospace;
+  font-size: 72px;
+  line-height: 1;
+  color: var(--green);
+  text-shadow: 0 0 20px var(--green), 0 0 40px var(--green-dim);
+  animation: glitch 6s infinite;
+}
+
+@keyframes glitch {
+  0%,88%,100% {
+    text-shadow: 0 0 20px var(--green), 0 0 40px var(--green-dim);
+    transform: translate(0);
+  }
+  89% { transform: translate(-3px, 1px);  text-shadow: -2px 0 var(--red),     2px 0 var(--cyan); }
+  90% { transform: translate(2px, -1px);  text-shadow:  2px 0 var(--magenta), -2px 0 var(--cyan); }
+  91% { transform: translate(0); }
+  92% { transform: translate(1px, 2px);   text-shadow: -1px 0 var(--cyan); }
+  93% { transform: translate(0); }
+}
+
+.hero-sub {
+  color: var(--green-dim);
+  font-size: 12px;
+  letter-spacing: 3px;
+  margin-top: 4px;
+}
+
+.hero-bio {
+  margin-top: 14px;
+  font-size: 12px;
+  color: #007700;
+  line-height: 1.8;
+  max-width: 380px;
+}
+.hero-bio span { color: var(--cyan); }
+.hero-bio .hi  { color: var(--green); }
+
+
+/* ============================================================
+   7. INTEREST TAGS
+   ============================================================ */
+.tag   { display: inline-block; padding: 1px 6px; border: 1px solid #003300; color: var(--green-dim); font-size: 9px; margin: 2px; }
+.tag.c { border-color: #003333; color: var(--cyan-dim); }
+.tag.y { border-color: #333300; color: var(--yellow-dim); }
+.tag.r { border-color: #330000; color: #882222; }
+
+
+/* ============================================================
+   8. CLOCK
+   ============================================================ */
+.clock-big {
+  font-family: 'VT323', monospace;
+  font-size: 46px;
+  color: var(--cyan);
+  text-shadow: 0 0 10px var(--cyan);
+  text-align: center;
+  line-height: 1;
+}
+
+.clock-date {
+  font-size: 11px;
+  color: var(--cyan-dim);
+  text-align: center;
+  margin-top: 2px;
+}
+
+
+/* ============================================================
+   9. TICKER / SCROLLING BAR
+   Adjust animation-duration to change speed (higher = slower).
+   ============================================================ */
+.ticker-wrap {
+  overflow: hidden;
+  padding: 5px 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.ticker-inner {
+  display: inline-block;
+  white-space: nowrap;
+  animation: ticker-scroll 35s linear infinite;
+  font-size: 10px;
+  color: #005500;
+}
+
+@keyframes ticker-scroll {
+  from { transform: translateX(100vw); }
+  to   { transform: translateX(-100%); }
+}
+
+
+/* ============================================================
+   10. LINK BUTTONS
+   Variants: default (green)  .c (cyan)  .y (yellow)  .m (magenta)
+   ============================================================ */
+.link-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  background: #000;
+  border: 1px solid #003300;
+  color: var(--green);
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 12px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.15s;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Shimmer sweep animation on hover */
+.link-btn::after {
+  content: '';
+  position: absolute;
+  left: -100%; top: 0; bottom: 0;
+  width: 100%;
+  background: linear-gradient(90deg, transparent, rgba(0,255,65,0.1), transparent);
+  transition: left 0.4s;
+}
+.link-btn:hover::after { left: 100%; }
+
+.link-btn:hover {
+  background: var(--green-dark);
+  border-color: var(--green-dim);
+  box-shadow: 0 0 8px rgba(0,255,65,0.2);
+  color: var(--green);
+  text-decoration: none;
+}
+
+.link-btn .arr         { color: #003300; transition: transform 0.15s; }
+.link-btn:hover .arr   { color: var(--green); transform: translateX(3px); }
+
+/* Cyan */
+.link-btn.c            { border-color: #003333; color: var(--cyan); }
+.link-btn.c:hover      { background: #001a1a; border-color: var(--cyan-dim); box-shadow: 0 0 8px rgba(0,255,255,0.2); }
+.link-btn.c .arr       { color: #003333; }
+.link-btn.c:hover .arr { color: var(--cyan); }
+
+/* Yellow */
+.link-btn.y            { border-color: #333300; color: var(--yellow); }
+.link-btn.y:hover      { background: #1a1a00; border-color: var(--yellow-dim); box-shadow: 0 0 8px rgba(255,255,0,0.2); }
+.link-btn.y .arr       { color: #333300; }
+.link-btn.y:hover .arr { color: var(--yellow); }
+
+/* Magenta */
+.link-btn.m            { border-color: #330033; color: var(--magenta); }
+.link-btn.m:hover      { background: #1a001a; border-color: #660066; box-shadow: 0 0 8px rgba(255,0,255,0.2); }
+.link-btn.m .arr       { color: #330033; }
+.link-btn.m:hover .arr { color: var(--magenta); }
+
+
+/* ============================================================
+   11. VISITOR COUNTER
+   ============================================================ */
+.counter-num {
+  font-family: 'VT323', monospace;
+  font-size: 40px;
+  color: var(--red);
+  text-shadow: 0 0 10px var(--red);
+  letter-spacing: 4px;
+  display: block;
+  text-align: center;
+  animation: flicker 4s infinite;
+}
+
+@keyframes flicker {
+  0%,93%,100% { opacity: 1; }
+  94%          { opacity: 0.4; }
+  96%          { opacity: 1; }
+  98%          { opacity: 0.6; }
+}
+
+
+/* ============================================================
+   12. TERMINAL
+   ============================================================ */
+.term      { font-size: 11px; line-height: 1.75; }
+.term .p   { color: var(--green-dim); }  /* prompt text  */
+.term .cmd { color: var(--cyan); }        /* typed command */
+.term .out { color: var(--green); }       /* output text   */
+.term .dim { color: #003300; }            /* very faint    */
+.term .e   { color: var(--red); }         /* error output  */
+
+
+/* ============================================================
+   13. GRID LAYOUTS
+   ============================================================ */
+.grid-3  { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+.grid-l2 { display: grid; grid-template-columns: 220px 1fr; gap: 8px; } /* sidebar + main */
+
+
+/* ============================================================
+   14. ANIMATED STATUS DOT
+   ============================================================ */
+.sdot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  display: inline-block;
+}
+.sdot.on   { background: var(--green);  box-shadow: 0 0 5px var(--green);  animation: pulse 2s infinite; }
+.sdot.warn { background: var(--yellow); box-shadow: 0 0 5px var(--yellow); animation: pulse 1.2s infinite; }
+.sdot.off  { background: var(--red);    box-shadow: 0 0 5px var(--red); }
+
+@keyframes pulse { 50% { opacity: 0.3; } }
+
+
+/* ============================================================
+   15. MISC UTILITIES
+   ============================================================ */
+hr.line   { border: none; border-top: 1px solid var(--border); margin: 8px 0; }
+hr.line-c { border: none; border-top: 1px solid #002222;       margin: 8px 0; }
+.dim      { color: #003300; }
+
+@keyframes blink { 50% { opacity: 0; } }
+
+/* Custom scrollbar */
+::-webkit-scrollbar       { width: 5px; background: #000; }
+::-webkit-scrollbar-thumb { background: var(--green-dark); border: 1px solid #002200; }
+
+
+/* ============================================================
+   16. CURSOR SPARK
+   The little characters that float up from the mouse cursor.
+   ============================================================ */
+.spark {
+  position: fixed;
+  pointer-events: none;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 11px;
+  color: var(--green);
+  z-index: 9998;
+  animation: spark-up 0.7s forwards;
+  text-shadow: 0 0 4px var(--green);
+}
+
+@keyframes spark-up {
+  0%   { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-30px); }
+}
+
+
+/* ============================================================
+   17. MOBILE / RESPONSIVE
+   Stacks everything to a single column on small screens.
+   ============================================================ */
+@media (max-width: 680px) {
+  .hero              { grid-template-columns: 1fr; }
+  .hero-right        { border-top: 1px solid var(--border); }
+  .grid-3, .grid-l2  { grid-template-columns: 1fr; }
+  .hero-handle       { font-size: 52px; }
+}
