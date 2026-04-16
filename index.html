@@ -1,396 +1,209 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="img/favicon.ico" type="image/x-icon">
   <title>dizzled.dev</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="icon" type="image/x-icon" href="/img/favicon.ico">
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-<!-- Matrix rain canvas — drawn by JavaScript, sits behind everything -->
-<canvas id="rain"></canvas>
+<div class="site">
 
-<div class="wrap">
+  <!-- NAV -->
+  <nav class="nav">
+    <span class="nav-handle">~/dizzled<span class="cursor"></span></span>
+    <div class="nav-links">
+      <a href="https://dylantaylor.net" class="nav-cta">Professional Site ↗</a>
+    </div>
+  </nav>
 
-  <div class="topbar">
-    <span><span class="live">●</span>&nbsp; dizzled.dev — online</span>
-    <span class="right">
-      <span>uptime: <span style="color:#004400" id="uptime-display">calculating...</span></span>
-      <span id="topbar-clock" style="color:#004400">--:--:--</span>
-    </span>
-  </div>
-
+  <!-- HERO -->
   <div class="hero">
-
-    <div class="hero-left">
-
-      <!handle>
-      <div class="hero-handle">Dizzle</div>
-
-      <!-- ONE-LINE DESCRIPTOR -->
-      <div class="hero-sub">// IT ENTHUSIAST · HOMELAB · SECURITY \\</div>
-
-      <!BIO>
-      <div class="hero-bio">
-        <span class="hi">&gt;</span> IT Student <span>at polytech</span>.<br>
-        <span class="hi">&gt;</span> Do I love it? <span>Yes, when things actually work</span>.<br>
-        <span class="hi">&gt;</span> Currently: <span id="current-status">outside (yes I have a life outside of IT)</span>.<br>
-        <span class="hi">&gt;</span> The homelab is <span>ALWAYS</span> a work in progress.
+    <div class="hero-grid-bg"></div>
+    <div class="hero-fade"></div>
+    <div class="hero-content">
+      <div class="hero-tag"><span class="tag-dot"></span> Open to Internships/Collabs</div>
+      <h1>Hey, i'm <span class="green">Dizzle</span><span class="dim">.</span><br>Welcome to my site!</h1>
+      <p class="hero-sub">Student, Hacker, Instructor, IT enthusiast.</p>
+      <div class="hero-btns">
+        <a href="https://github.com/dizzle0" class="nav-cta">Github ↗</a>
+        <a href="https://dylantaylor.net" class="nav-cta">Professional Site ↗</a>
       </div>
-
-      <!-- INTEREST TAGS — add, remove, or rename these freely -->
-      <div style="margin-top:14px;">
-        <span class="tag c">homelab</span>
-        <span class="tag">self-hosting</span>
-        <span class="tag y">networking</span>
-        <span class="tag">security</span>
-        <span class="tag c">linux</span>
-        <span class="tag">proxmox</span>
-        <span class="tag y">open-source</span>
-        <span class="tag">docker</span>
-      </div>
-
-    </div>
-
-    <!CLOCK->
-    <div class="hero-right">
-      <div class="clock-big" id="hero-clock">00:00:00</div>
-      <div class="clock-date" id="hero-date">---</div>
-      <hr class="line" style="width:100%;margin:4px 0;">
-      <div style="font-size:9px;color:#003333;text-align:center;">
-      </div>
-    </div>
-
-  </div>
-
-  <div class="ticker-wrap">
-    <div class="ticker-inner">
-      &nbsp;&nbsp;&nbsp;
-      // STATUS: <span style="color:var(--green)">online</span>
-      &nbsp;&nbsp; // &nbsp;&nbsp;
-      SELF-HOSTING: <span style="color:var(--yellow)">16 services</span>
-      &nbsp;&nbsp; // &nbsp;&nbsp;
-      DISTRO: <span style="color:var(--cyan)">Arch Linux</span>
-      &nbsp;&nbsp; // &nbsp;&nbsp;
-      UPTIME: <span style="color:var(--green)" id="ticker-uptime">calculating...</span>
-      &nbsp;&nbsp; //
     </div>
   </div>
 
-  <div class="grid-l2">
+  <!-- STATUS STRIP -->
+  <div class="status-strip">
+    <div class="status-item">
+      <div class="status-label">os</div>
+      <div class="status-val">Arch Linux</div>
+    </div>
+    <div class="status-item">
+      <div class="status-label">server</div>
+      <div class="status-val"><span class="online-dot"></span>Proxmox</div>
+    </div>
+    <div class="status-item">
+      <div class="status-label">containers</div>
+      <div class="status-val"><span class="online-dot"></span>Docker/Podman</div>
+    </div>
+    <div class="status-item">
+      <div class="status-label">services</div>
+      <div class="status-val"><span class="online-dot"></span>7 running</div>
+    </div>
+    <div class="status-item">
+      <div class="status-label">status</div>
+      <div class="status-val"><span class="online-dot"></span>Always a work in progress</div>
+    </div>
+  </div>
 
-    <!LEFT COLUMN>
-    <div style="display:flex;flex-direction:column;gap:8px;">
-
-      <!FIND ME>
-      <div class="panel">
-        <div class="panel-head">
-          <span>// FIND ME //</span>
-          <div class="dots">
-            <div class="dot dot-r"></div>
-            <div class="dot dot-y"></div>
-            <div class="dot dot-g"></div>
-          </div>
-        </div>
-        <div class="panel-body" style="display:flex;flex-direction:column;gap:4px;">
-
-          <!Website>
-          <a href="https://dylantaylor.net" class="link-btn c" target="_blank">
-            <span class="arr">&gt;</span> dylantaylor.net
-          </a>
-
-          <!GitHub>
-          <a href="https://github.com/dizzle0" class="link-btn c" target="_blank">
-            <span class="arr">&gt;</span> github.com/dizzle
-          </a>
-
-          <!Mastodon>
-          <a href="https://mastodon.social/@dizzle1" class="link-btn" target="_blank">
-            <span class="arr">&gt;</span> mastodon.social/@dizzle
-          </a>
-
-          <!Email>
-          <a href="mailto:contact@dylantaylor.net" class="link-btn y">
-            <span class="arr">&gt;</span> email me
-          </a>
-
-        </div>
-      </div>
-
-      <!-- VISITOR COUNTER
-           The count is managed by main.js using localStorage.
-           It actually increments on every visit (per browser).
-           To change the starting number, edit STARTING_COUNT in main.js. -->
-      <div class="panel c-red">
-        <div class="panel-head">
-          <span>// VISITORS //</span>
-          <div class="dots">
-            <div class="dot dot-r"></div>
-            <div class="dot dot-y"></div>
-            <div class="dot dot-g"></div>
-          </div>
-        </div>
-        <div class="panel-body" style="text-align:center;">
-          <div style="font-size:9px;color:#440000;letter-spacing:2px;margin-bottom:4px;">TOTAL CONNECTIONS</div>
-          <span class="counter-num" id="vcounter">-----</span>
-          <div style="font-size:9px;color:#440000;margin-top:4px;">
-            you are visitor <span style="color:var(--red)" id="you-are">#---</span>
-          </div>
-        </div>
-      </div>
-
-    </div><!-- end left column -->
-
-
-    <!-- TERMINAL
-         Interactive — visitors can type commands.
-         To add or edit commands, open main.js and find
-         the `commands` object in section 6. -->
-    <div class="panel">
-      <div class="panel-head">
-        <span>// TERMINAL // guest@dizzled.dev:~$</span>
-        <div class="dots">
-          <div class="dot dot-r"></div>
-          <div class="dot dot-y"></div>
-          <div class="dot dot-g"></div>
-        </div>
-      </div>
-      <div class="panel-body">
-
-        <!-- Terminal output — main.js inserts new lines above the cursor -->
-        <div class="term" id="term">
-          <div><span class="p">guest@dizzled.dev:~$</span> <span class="cmd">cat about.txt</span></div>
-          <div class="out">handle: dizzle | role: IT enthusiast &amp; homelab geek</div>
-          <div class="out">focus:  homelabbing, networking, and breaking things</div>
-          <div class="out">tools:  proxmox · docker · tailscale · SSH</div>
-          <div><span class="p">guest@dizzled.dev:~$</span> <span class="cmd">ping self</span></div>
-          <div class="out">PING self: Houston, we have a problem.</div>
-          <!-- Blinking cursor -->
-          <div>
-            <span class="p">guest@dizzled.dev:~$</span>
-            <span class="cmd" id="term-cursor" style="animation:blink 1s step-end infinite;">█</span>
-          </div>
-        </div>
-
-        <hr class="line">
-
-        <!-- Input row at the bottom of the terminal -->
-        <div style="display:flex;gap:6px;align-items:center;">
-          <span style="color:var(--green-dim);font-size:11px;">guest@dizzled.dev:~$</span>
-          <input
-            id="term-input"
-            style="flex:1;background:transparent;border:none;outline:none;color:var(--green);font-family:'Share Tech Mono',monospace;font-size:11px;caret-color:var(--green);"
-            placeholder="type a command... (try: help)"
-            autocomplete="off"
-            spellcheck="false"
-          >
-        </div>
-
+  <!-- ABOUT -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-label">// about</span>
+      <div class="section-line"></div>
+    </div>
+    <div class="about-card">
+      <div class="about-avatar">D</div>
+      <div class="about-text">
+        <h3>Dizzle</h3>
+        <p>IT student with a passion for homelabbing. This site serves as my man cave of the interwebs. All the professional stuff lives over at dylantaylor.net.</p>
       </div>
     </div>
+  </div>
 
-  </div><!-- end grid-l2 -->
-
-
-  <!-- ============================================================
-       ROW: INTERESTS | BIO | NOW PLAYING
-       ============================================================ -->
-  <div class="grid-3">
-
-    <!-- INTERESTS
-         Edit each row: icon (any unicode symbol), title, subtitle. -->
-    <div class="panel c-cyan">
-      <div class="panel-head">
-        <span>// INTERESTS //</span>
-        <div class="dots">
-          <div class="dot dot-r"></div>
-          <div class="dot dot-y"></div>
-          <div class="dot dot-g"></div>
+  <!-- PROJECTS -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-label">// featured projects</span>
+      <div class="section-line"></div>
+    </div>
+    <div class="projects-grid">
+      <div class="project-card">
+        <div class="project-top">
+          <span style="font-size:18px;">🖥️</span>
         </div>
+        <div class="project-name">Homelab</div>
+        <div class="project-desc">My home server that runs all my self-hosted services.</div>
+        <div class="project-tags"><span class="tag-g">Proxmox</span><span class="tag-g">LXC</span><span class="tag-g">Tailscale</span></div>
       </div>
-      <div class="panel-body">
-        <div style="font-size:9px;color:var(--cyan-dim);letter-spacing:2px;margin-bottom:8px;">WHAT I'M INTO</div>
-        <div style="font-size:11px;">
-
-          <div style="padding:6px 0;border-bottom:1px solid #002222;display:flex;align-items:center;gap:10px;">
-            <span style="color:var(--cyan);font-size:18px;width:22px;text-align:center;">⌂</span>
-            <div>
-              <div style="color:var(--cyan);">Homelabbing</div>
-              <div style="font-size:9px;color:#005555;margin-top:2px;">proxmox · docker · VPS</div>
-            </div>
-          </div>
-
-          <div style="padding:6px 0;border-bottom:1px solid #002222;display:flex;align-items:center;gap:10px;">
-            <span style="color:var(--cyan);font-size:18px;width:22px;text-align:center;">⎋</span>
-            <div>
-              <div style="color:var(--cyan);">Cyber Security</div>
-              <div style="font-size:9px;color:#005555;margin-top:2px;">vaultwarden · yubikeys · 2FA</div>
-            </div>
-          </div>
-
-          <div style="padding:6px 0;border-bottom:1px solid #002222;display:flex;align-items:center;gap:10px;">
-            <span style="color:var(--cyan);font-size:18px;width:22px;text-align:center;">▣</span>
-            <div>
-              <div style="color:var(--cyan);">Linux</div>
-              <div style="font-size:9px;color:#005555;margin-top:2px;">daily driver · fixing errors everyday</div>
-            </div>
-          </div>
-
-          <div style="padding:6px 0;display:flex;align-items:center;gap:10px;">
-            <span style="color:var(--cyan);font-size:18px;width:22px;text-align:center;">◈</span>
-            <div>
-              <div style="color:var(--cyan);">Hardware</div>
-              <div style="font-size:9px;color:#005555;margin-top:2px;">raspberry pi · old servers · anything broken</div>
-            </div>
-          </div>
+      <div class="project-card">
+        <div class="project-top">
+          <span style="font-size:18px;">🌐</span>
 
         </div>
+        <div class="project-name">DylanTaylor.net</div>
+        <div class="project-desc">My personal website running on Hugo with the Coder theme.</div>
+        <div class="project-tags"><span class="tag-g">Website</span><span class="tag-r">Hugo</span><span class="tag-r">Cloudflare</span></div>
+      </div>
+      <div class="project-card">
+        <div class="project-top">
+          <span style="font-size:18px;">📡</span>
+        </div>
+        <div class="project-name">Tailnet</div>
+        <div class="project-desc">Tailscale network to connect all my services together with exit nodes in New Zealand, Australia, and Switzerland.</div>
+        <div class="project-tags"><span class="tag-g">VPN</span><span class="tag-g">Wireguard</span></div>
       </div>
     </div>
+  </div>
 
-
-    <!-- BIO
-         Replace all [SQUARE BRACKET] placeholders with your real info.
-         Keep it casual — this is a personal page, not a CV. -->
-    <div class="panel">
-      <div class="panel-head">
-        <span>// ABOUT //</span>
-        <div class="dots">
-          <div class="dot dot-r"></div>
-          <div class="dot dot-y"></div>
-          <div class="dot dot-g"></div>
-        </div>
+  <!-- STACK -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-label">// stack &amp; tools</span>
+      <div class="section-line"></div>
+    </div>
+    <div class="stack-grid">
+      <div class="stack-item">
+        <div class="stack-icon green">🐧</div>
+        <div><div class="stack-name">Arch Linux</div><div class="stack-sub">Daily Driver</div></div>
       </div>
-      <div class="panel-body" style="font-size:11px;">
+      <div class="stack-item">
+        <div class="stack-icon red">🖥️</div>
+        <div><div class="stack-name">Proxmox</div><div class="stack-sub">Home Server</div></div>
+      </div>
+      <div class="stack-item">
+        <div class="stack-icon green">🐋</div>
+        <div><div class="stack-name">Docker</div><div class="stack-sub">Containers</div></div>
+      </div>
+      <div class="stack-item">
+        <div class="stack-icon gray">🌐</div>
+        <div><div class="stack-name">Networking</div><div class="stack-sub">Tailscale</div></div>
+      </div>
+      <div class="stack-item">
+        <div class="stack-icon green">🔒</div>
+        <div><div class="stack-name">Self-hosting</div><div class="stack-sub">Own your data</div></div>
+      </div>
+      <div class="stack-item">
+        <div class="stack-icon gray">⚡</div>
+        <div><div class="stack-name">Linux</div><div class="stack-sub">Terminal is a second home to us</div></div>
+      </div>
+    </div>
+  </div>
 
-        <!-- LOCATION — delete this block if you don't want it -->
-        <div style="margin-bottom:8px;">
-          <div style="font-size:9px;color:#003300;letter-spacing:2px;">LOCATION</div>
-          <div style="color:var(--green-dim);margin-top:3px;">New Zealand</div>
-        </div>
-
-        <hr class="line">
-
-        <!-- BIO TEXT — write a few sentences about yourself -->
-        <div style="color:#007700;line-height:2;margin:8px 0;">
-          Just your average IT student trying to get by :) <br>
-          <span style="color:var(--cyan);">My man cave of the internet.</span>
-        </div>
-
-        <hr class="line">
-
-        <!-- CURRENTLY — filled in automatically by main.js from the statuses array -->
+  <!-- SERVICES -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-label">// self-hosted services</span>
+      <div class="section-line"></div>
+    </div>
+    <div class="services-grid">
+      <div class="service-card">
+        <div class="service-ico green">🎬</div>
         <div>
-          <div style="font-size:9px;color:#003300;letter-spacing:2px;">CURRENTLY</div>
-          <div style="color:var(--green-dim);margin-top:3px;" id="bio-current">loading...</div>
-        </div>
-
-      </div>
-    </div>
-
-
-    <!-- NOW PLAYING
-         Manually update TRACK, ARTIST, ALBUM, and SOURCE below.
-         The VU meter bars are animated automatically by main.js.
-         For auto-updating from Last.fm or Spotify, you'd need
-         to add an API call — not included here. -->
-    <div class="panel c-mag">
-      <div class="panel-head">
-        <span>// NOW PLAYING //</span>
-        <div class="dots">
-          <div class="dot dot-r"></div>
-          <div class="dot dot-y"></div>
-          <div class="dot dot-g"></div>
+          <div class="service-name">Jellyfin</div>
+          <div class="service-desc">Movie Server</div>
+          <span class="service-badge">Public</span>
         </div>
       </div>
-      <div class="panel-body">
-
-        <!-- VU meter bars — created and animated by main.js, nothing to edit here -->
-        <div id="vu-meter" style="display:flex;gap:2px;align-items:flex-end;height:28px;margin-bottom:10px;"></div>
-
-        <div style="font-size:11px;line-height:1;">
-
-          <!-- TRACK -->
-          <div style="padding:5px 0;border-bottom:1px solid #ff0000;">
-            <div style="font-size:9px;color:#1eff00;letter-spacing:1px;">TRACK</div>
-            <div style="color:var(--magenta);margin-top:3px;">New Dawn Fades</div>
-          </div>
-
-          <!-- ARTIST -->
-          <div style="padding:5px 0;border-bottom:1px solid #ff0000;">
-            <div style="font-size:9px;color:#1eff00;letter-spacing:1px;">ARTIST</div>
-            <div style="color:var(--magenta);margin-top:3px;">Moby</div>
-          </div>
-
-          <!-- ALBUM -->
-          <div style="padding:5px 0;border-bottom:1px solid #ff0000;">
-            <div style="font-size:9px;color:#1eff00;letter-spacing:1px;">ALBUM</div>
-            <div style="color:var(--magenta);margin-top:3px;">Feeling so real</div>
-          </div>
-
-          <!-- REASON -->
-          <div style="padding:5px 0;border-bottom:1px solid #ff0000;">
-            <div style="font-size:9px;color:#1eff00;letter-spacing:1px;">Why it's amazing</div>
-            <div style="color:var(--magenta);margin-top:3px;">Gives you hacking superpowers</div>
-          </div>
-
+      <div class="service-card">
+        <div class="service-ico red">🔐</div>
+        <div>
+          <div class="service-name">Vaultwarden</div>
+          <div class="service-desc">Password Manager</div>
+          <span class="service-badge priv">Private</span>
         </div>
       </div>
-    </div>
-
-  </div><!-- end grid-3 -->
-
-
-  <!-- ============================================================
-       FOOTER
-       Edit handle, PGP fingerprint (or remove that line), and links.
-       ============================================================ -->
-  <div class="panel" style="text-align:center;padding:12px;">
-    <div style="font-size:10px;color:#003300;line-height:2.4;">
-      <span style="color:var(--green-dim)">dizzled.dev</span>
-      — Smoke if u got em..<br>
-      <!-- Remove this line if you don't use PGP -->
-      pgp: <span style="color:#004400;">[xjMEaaZx9BYJKwYBBAHaRw8BAQdA3ZUzKIM9s0h1ASE+VvNoYTHqROIfgMdw
-      2VPch83LIi7NMWNvbnRhY3RAZHlsYW50YXlsb3IubmV0IDxjb250YWN0QGR5
-      bGFudGF5bG9yLm5ldD7CwBEEExYKAIMFgmmmcfQDCwkHCRBG5hq2w5C4D0UU
-      AAAAAAAcACBzYWx0QG5vdGF0aW9ucy5vcGVucGdwanMub3Jn7Wc5sqAhJjTt
-      siFrBxhWHw6g/apFEYFNDdaMecQt9QYDFQoIBBYAAgECGQECmwMCHgEWIQQ4
-      1Wtv513R4Bl7yUJG5hq2w5C4DwAAXrAA+waqZ7D/4OHIPIuP6D4H4M0gIuUV
-      E5FxuRSKJfFDSbomAQDK4g8KIc/PP2aoP7u41EiKguXf/9ehcFY9zUeIZLUK
-      Bc44BGmmcfQSCisGAQQBl1UBBQEBB0B/Es7PBH90aEWO+Sulagclmyq4h8LF
-      0LieDPw3GzicLwMBCAfCvgQYFgoAcAWCaaZx9AkQRuYatsOQuA9FFAAAAAAA
-      HAAgc2FsdEBub3RhdGlvbnMub3BlbnBncGpzLm9yZ5ThSyfSm+5QZ0yqoq0p
-      3W+sdDkN8NeQe+4MUEh7O/U3ApsMFiEEONVrb+dd0eAZe8lCRuYatsOQuA8A
-      AIGdAP4lVurFMQcOc79hpqWQ8GS2fDztJXhOPggIfFpRWWwEbwEA58B2nVWT
-      B2iaNqf1IC/EGm8NCmTVGYT4wDpvpN/QIws=
-      =Xlnu]</span><br>
-      <span class="dim">© dizzled.dev — thanks for visiting!</span>
-    </div>
-
-    <hr class="line" style="max-width:300px;margin:8px auto;">
-
-    <!-- Footer nav links — replace each href -->
-    <div style="font-size:9px;color:#002200;">
-      <a href="https://dizzled.dev"
-         style="color:#003300;text-decoration:none;margin:0 8px;"
-         onmouseover="this.style.color='#00aa2a'"
-         onmouseout="this.style.color='#003300'">home</a>
-      <a href="https://dylantaylor.net/about"
-         style="color:#003300;text-decoration:none;margin:0 8px;"
-         onmouseover="this.style.color='#00aa2a'"
-         onmouseout="this.style.color='#003300'">about</a>
-      <a href="https://dylantaylor.net/contact"
-         style="color:#003300;text-decoration:none;margin:0 8px;"
-         onmouseover="this.style.color='#00aa2a'"
-         onmouseout="this.style.color='#003300'">contact</a>
+      <div class="service-card">
+        <div class="service-ico gray">🐾</div>
+        <div>
+          <div class="service-name">Immich</div>
+          <div class="service-desc">Photo Backup</div>
+          <span class="service-badge priv">Private</span>
+        </div>
+      </div>
+      <div class="service-card">
+        <div class="service-ico gray">🛡️</div>
+        <div>
+          <div class="service-name">AdGuard</div>
+          <div class="service-desc">DNS ad blocking</div>
+          <span class="service-badge priv">Private</span>
+        </div>
+      </div>
+      <div class="service-card">
+        <div class="service-ico gray">🦅</div>
+        <div>
+          <div class="service-name">Openclaw</div>
+          <div class="service-desc">AI Assistant</div>
+          <span class="service-badge priv">Private</span>
+        </div>
+      </div>
     </div>
   </div>
 
-</div><!-- end .wrap -->
+  <!-- FOOTER -->
+  <div class="footer" style="border-top: 0.5px solid #1c1c1c;">
+    <div class="footer-links">
+      <a href="https://github.com/dizzle0" class="footer-link">github ↗</a>
+      <a href="https://dylantaylor.net" class="footer-link">professional site ↗</a>
+      <a href="mailto:contact@dylantaylor.net" class="footer-link">contact ↗</a>
+    </div>
+    <span class="footer-copy">© 2026 Dizzle</span>
+  </div>
 
-<!-- Load JavaScript last so the DOM is ready when it runs -->
-<script src="main.js"></script>
+</div>
 
+<script src="script.js"></script>
 </body>
 </html>
